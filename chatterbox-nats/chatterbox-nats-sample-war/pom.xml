@@ -69,6 +69,20 @@
       <type>zip</type>
       <scope>test</scope>
     </dependency>
+    <dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomee/openejb-mockito -->
+<dependency>
+    <groupId>org.apache.tomee</groupId>
+    <artifactId>openejb-mockito</artifactId>
+    <version>${version.openejb}</version>
+    <scope>test</scope>
+</dependency>
+		
   </dependencies>
 
   <build>

@@ -17,8 +17,8 @@ import org.junit.runner.RunWith;
 public class SenderTest {
 
 	@Application
-	private AppDescriptor descriptor;
-		
+	private AppDescriptor descriptor;	
+	
 	@Test
 	public void testNatsResourceAvailable() {
 		Client client = ClientBuilder.newClient();
