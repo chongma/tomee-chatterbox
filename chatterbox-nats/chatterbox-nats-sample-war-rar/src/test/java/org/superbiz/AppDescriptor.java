@@ -49,19 +49,25 @@ import org.apache.tomee.chatterbox.nats.adapter.out.NATSConnectionImpl;
 import org.apache.tomee.chatterbox.nats.adapter.out.NATSManagedConnectionFactory;
 import org.apache.tomee.chatterbox.nats.api.NATSConnection;
 import org.apache.tomee.chatterbox.nats.api.NATSConnectionFactory;
+import org.mockito.Mock;
 
 @Default
 @SimpleLog
 @Classes(cdi = true, context = "/")
 @ContainerProperties({
-	  @ContainerProperties.Property(name = "NATS.baseAddress", value = "nats://localhost"),
+	  @ContainerProperties.Property(name = "NATS.baseAddress", value = "nats://localhost:4223"),
 	  @ContainerProperties.Property(name = "NATS.clusterId", value = "mycluster"),
-	  @ContainerProperties.Property(name = "NATS.clientId", value = "tomee1")
+	  @ContainerProperties.Property(name = "NATS.clientId", value = "tomee1"),
+	  @ContainerProperties.Property(name = "openejb.connector.NATS.skip-default", value="true"),
+	  @ContainerProperties.Property(name = "openejb.connector.NATSConnectionFactory.skip-default", value="true")
 	})
 @Application
 public class AppDescriptor {
 	@RandomPort("http")
 	private URL base;		
+	
+	@Mock
+	private EchoBean echoBean;
 			
 	@Module
     public Connector connector() {
@@ -78,7 +84,7 @@ public class AppDescriptor {
 
         final ResourceAdapter ra = new ResourceAdapter();
         ra.setId("NATS");
-        ra.setResourceAdapterClass(MyRa.class.getName());
+        ra.setResourceAdapterClass(NATSResourceAdapter.class.getName());
         ra.setOutboundResourceAdapter(out);
 
         final Connector connector = new Connector();
@@ -91,32 +97,32 @@ public class AppDescriptor {
 		return base;
 	}
 	
-	public static class MyRa extends NATSResourceAdapter {
-      @Override
-      public void start(final BootstrapContext ctx) throws ResourceAdapterInternalException {
-          // no-op
-      }
-
-      @Override
-      public void stop() {
-          // no-op
-      }
-
-      @Override
-      public void endpointActivation(final MessageEndpointFactory endpointFactory, final ActivationSpec spec) throws ResourceException {
-          // no-op
-      }
-
-      @Override
-      public void endpointDeactivation(final MessageEndpointFactory endpointFactory, final ActivationSpec spec) {
-          // no-op
-      }
-
-      @Override
-      public XAResource[] getXAResources(final ActivationSpec[] specs) throws ResourceException {
-          return new XAResource[0];
-      }
-	}
+//	public static class MyRa extends NATSResourceAdapter {
+//      @Override
+//      public void start(final BootstrapContext ctx) throws ResourceAdapterInternalException {
+//          // no-op
+//      }
+//
+//      @Override
+//      public void stop() {
+//          // no-op
+//      }
+//
+//      @Override
+//      public void endpointActivation(final MessageEndpointFactory endpointFactory, final ActivationSpec spec) throws ResourceException {
+//          // no-op
+//      }
+//
+//      @Override
+//      public void endpointDeactivation(final MessageEndpointFactory endpointFactory, final ActivationSpec spec) {
+//          // no-op
+//      }
+//
+//      @Override
+//      public XAResource[] getXAResources(final ActivationSpec[] specs) throws ResourceException {
+//          return new XAResource[0];
+//      }
+//	}
 	
 //	public static class MyRa implements javax.resource.spi.ResourceAdapter {
 //        @Override

@@ -23,11 +23,11 @@ services:
        LANGUAGE: en_GB:en
        LC_ALL: en_GB.UTF-8
      ports:
-       - '4222:4222'
-       - '8222:8222'
+       - '4223:4222'
+       - '8223:8222'
      expose:
-       - 4222
-       - 8222
+       - 4223
+       - 8223
      networks:
        - backend
 networks:
